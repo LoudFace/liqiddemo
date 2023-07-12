@@ -1,12 +1,17 @@
 import { createAuth0Client } from '@auth0/auth0-spa-js';
 const init = async () => {
   const client = await createAuth0Client({
-    clientId: '5de63480d4a1c7081dd4423a',
-    domain: 'auth.liqid.rocks',
+    clientId: 'SaYMf7u7esx5uE091UgWC7b4it47HCeu',
+    domain: 'liqid-dev.eu.auth0.com',
     authorizationParams: {
       redirect_uri: 'https://arnels-ultra-awesome-site-8feb2b.webflow.io/',
     },
   });
+  //https://arnels-ultra-awesome-site-8feb2b.webflow.io/
+  //   clientID
+  // SaYMf7u7esx5uE091UgWC7b4it47HCeu
+  // DOMAIN
+  // http://liqid-dev.eu.auth0.com
   console.log(client);
   const hidebtn = document.getElementById('hideLink') as HTMLAnchorElement;
   console.log(hidebtn);
@@ -19,16 +24,6 @@ const init = async () => {
     history.replaceState({}, document.title, window.location.origin + window.location.pathname);
   }
 
-  const isLoggedIn = await client.isAuthenticated();
-  if (!isLoggedIn) {
-    hidebtn.href = `http://nolink`;
-  }
-  console.log(isLoggedIn);
-
-  if (isLoggedIn) {
-    hidebtn.href = 'http://google.com';
-  }
-
   console.log(client);
 
   window.Webflow ||= [];
@@ -36,17 +31,34 @@ const init = async () => {
     //const name = 'Liqid';
     // console.log('jj');
 
-    const signupBtn = document.getElementById('authSignup');
-    const logOutUser = document.getElementById('authLogout');
-    if (!signupBtn || !logOutUser) return;
+    const loginUser = document.getElementById('authLogin');
+    const signUpUser = document.getElementById('logOut');
 
-    signupBtn.addEventListener('click', async (e) => {
+    const logOutUser = document.getElementById('logOut');
+
+    if (!loginUser || !logOutUser || !signUpUser) return;
+
+    loginUser.addEventListener('click', async (e) => {
       (await client).loginWithRedirect();
-      console.log(e);
     });
+
+    const isLoggedIn = await client.isAuthenticated();
+    if (!isLoggedIn) {
+      hidebtn.href = `http://nolink`;
+      hidebtn.style.opacity = `50%`;
+    }
+    console.log(isLoggedIn);
+
+    if (isLoggedIn) {
+      hidebtn.href = 'http://google.com';
+      hidebtn.classList.remove('disabled');
+    }
+
+    //signUpUser.addEventListener('click', async () => {});
 
     logOutUser.addEventListener('click', async () => {
       (await client).logout();
+      console.log(logOutUser);
     });
     //console.log(name);
   });
