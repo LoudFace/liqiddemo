@@ -23,42 +23,58 @@ const init = async () => {
     await client.handleRedirectCallback();
     history.replaceState({}, document.title, window.location.origin + window.location.pathname);
   }
+  console.log(code);
+  const logoutBtn = document.getElementById('logOutbtn');
+  const loginUser = document.getElementById('authLogin');
+  const signUpUser = document.getElementById('authSignUp');
+  const accessDenied = document.querySelector('[Lf-element="deniedEl"]') as HTMLElement;
+  const accessPage = document.querySelector('[Lf-element="mainPage"]');
 
-  console.log(client);
+  ////////////User authentication
+  const isLoggedIn = await client.isAuthenticated();
+  console.log(isLoggedIn);
+  const unregisteredUser = function () {
+    if (!isLoggedIn) {
+      hidebtn.href = ``;
+      hidebtn.style.opacity = `50%`;
+      // window.location.href = 'https://arnels-ultra-awesome-site-8feb2b.webflow.io';
+
+      accessDenied ? (accessDenied.style.display = `flex`) : '';
+    }
+    console.log(isLoggedIn);
+  };
+
+  const activeUser = function () {
+    if (isLoggedIn) {
+      hidebtn.href = 'https://arnels-ultra-awesome-site-8feb2b.webflow.io/private-equity';
+      hidebtn.classList.remove('disabled');
+      console.log(client);
+      accessDenied ? (accessDenied.style.display = `none`) : '';
+      accessPage ? accessPage.classList.remove('hide') : '';
+    }
+  };
+  unregisteredUser();
+  activeUser();
+  console.log('gbemi');
+  ////User authentication end
+  //console.log(client);
 
   window.Webflow ||= [];
   window.Webflow.push(() => {
-    //const name = 'Liqid';
-    // console.log('jj');
+    //console.log('check');
+    //console.log(loginUser, logoutBtn, signUpUser);
+    if (!loginUser || !logoutBtn || !signUpUser) return;
 
-    const loginUser = document.getElementById('authLogin');
-    const signUpUser = document.getElementById('logOut');
-
-    const logOutUser = document.getElementById('logOut');
-
-    if (!loginUser || !logOutUser || !signUpUser) return;
-
+    // console.log('check2');
     loginUser.addEventListener('click', async (e) => {
       (await client).loginWithRedirect();
     });
 
-    const isLoggedIn = await client.isAuthenticated();
-    if (!isLoggedIn) {
-      hidebtn.href = `http://nolink`;
-      hidebtn.style.opacity = `50%`;
-    }
-    console.log(isLoggedIn);
-
-    if (isLoggedIn) {
-      hidebtn.href = 'http://google.com';
-      hidebtn.classList.remove('disabled');
-    }
-
     //signUpUser.addEventListener('click', async () => {});
 
-    logOutUser.addEventListener('click', async () => {
+    logoutBtn.addEventListener('click', async () => {
       (await client).logout();
-      console.log(logOutUser);
+      console.log('logoit');
     });
     //console.log(name);
   });
