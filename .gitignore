@@ -26,3 +26,5 @@ typings/
 
 # Production files
 # dist
+
+# <script defer src='https://cdn.jsdelivr.net/gh/LoudFace/liqiddemo/dist/index.js'> </script> 

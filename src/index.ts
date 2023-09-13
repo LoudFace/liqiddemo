@@ -1,4 +1,7 @@
 import { createAuth0Client } from '@auth0/auth0-spa-js';
+
+console.log('Liqid');
+
 const init = async () => {
   const client = await createAuth0Client({
     clientId: 'SaYMf7u7esx5uE091UgWC7b4it47HCeu',
@@ -23,7 +26,7 @@ const init = async () => {
     await client.handleRedirectCallback();
     history.replaceState({}, document.title, window.location.origin + window.location.pathname);
   }
-  console.log(code);
+  // console.log(code);
   const logoutBtn = document.getElementById('logOutbtn');
   const loginUser = document.getElementById('authLogin');
   const signUpUser = document.getElementById('authSignUp');
@@ -46,16 +49,16 @@ const init = async () => {
 
   const activeUser = function () {
     if (isLoggedIn) {
-      hidebtn.href = 'https://arnels-ultra-awesome-site-8feb2b.webflow.io/private-equity';
+      hidebtn.href = 'https://test.liqid.rocks/22_referral-client-page-test';
       hidebtn.classList.remove('disabled');
-      console.log(client);
+      //console.log(client);
       accessDenied ? (accessDenied.style.display = `none`) : '';
       accessPage ? accessPage.classList.remove('hide') : '';
     }
   };
   unregisteredUser();
   activeUser();
-  console.log('gbemi');
+  //console.log('gbemi');
   ////User authentication end
   //console.log(client);
 
